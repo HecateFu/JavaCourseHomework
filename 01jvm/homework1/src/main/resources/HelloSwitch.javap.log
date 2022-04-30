@@ -1,0 +1,160 @@
+Classfile /F:/working/git_mine/JavaCourseHomework/01jvm/homework1/target/classes/HelloSwitch.class
+  Last modified 2022Äê4ÔÂ29ÈÕ; size 640 bytes
+  MD5 checksum 050f97f0d6d4e1929e6522b0579f9659
+  Compiled from "HelloSwitch.java"
+public class HelloSwitch
+  minor version: 0
+  major version: 55
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // HelloSwitch
+  super_class: #3                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+   #1 = Methodref          #3.#25         // java/lang/Object."<init>":()V
+   #2 = Class              #26            // HelloSwitch
+   #3 = Class              #27            // java/lang/Object
+   #4 = Utf8               <init>
+   #5 = Utf8               ()V
+   #6 = Utf8               Code
+   #7 = Utf8               LineNumberTable
+   #8 = Utf8               LocalVariableTable
+   #9 = Utf8               this
+  #10 = Utf8               LHelloSwitch;
+  #11 = Utf8               main
+  #12 = Utf8               ([Ljava/lang/String;)V
+  #13 = Utf8               i
+  #14 = Utf8               I
+  #15 = Utf8               args
+  #16 = Utf8               [Ljava/lang/String;
+  #17 = Utf8               num_arr
+  #18 = Utf8               [I
+  #19 = Utf8               result
+  #20 = Utf8               D
+  #21 = Utf8               StackMapTable
+  #22 = Class              #18            // "[I"
+  #23 = Utf8               SourceFile
+  #24 = Utf8               HelloSwitch.java
+  #25 = NameAndType        #4:#5          // "<init>":()V
+  #26 = Utf8               HelloSwitch
+  #27 = Utf8               java/lang/Object
+{
+  public HelloSwitch();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   LHelloSwitch;
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=5, args_size=1
+         0: iconst_4
+         1: newarray       int
+         3: dup
+         4: iconst_0
+         5: iconst_1
+         6: iastore
+         7: dup
+         8: iconst_1
+         9: iconst_2
+        10: iastore
+        11: dup
+        12: iconst_2
+        13: iconst_3
+        14: iastore
+        15: dup
+        16: iconst_3
+        17: iconst_4
+        18: iastore
+        19: astore_1
+        20: dconst_0
+        21: dstore_2
+        22: iconst_0
+        23: istore        4
+        25: iload         4
+        27: aload_1
+        28: arraylength
+        29: if_icmpge     107
+        32: iload         4
+        34: tableswitch   { // 0 to 2
+                       0: 60
+                       1: 71
+                       2: 82
+                 default: 93
+            }
+        60: dload_2
+        61: aload_1
+        62: iload         4
+        64: iaload
+        65: i2d
+        66: dadd
+        67: dstore_2
+        68: goto          101
+        71: dload_2
+        72: aload_1
+        73: iload         4
+        75: iaload
+        76: i2d
+        77: dsub
+        78: dstore_2
+        79: goto          101
+        82: dload_2
+        83: aload_1
+        84: iload         4
+        86: iaload
+        87: i2d
+        88: dmul
+        89: dstore_2
+        90: goto          101
+        93: dload_2
+        94: aload_1
+        95: iload         4
+        97: iaload
+        98: i2d
+        99: ddiv
+       100: dstore_2
+       101: iinc          4, 1
+       104: goto          25
+       107: return
+      LineNumberTable:
+        line 3: 0
+        line 4: 20
+        line 5: 22
+        line 6: 32
+        line 8: 60
+        line 9: 68
+        line 11: 71
+        line 12: 79
+        line 14: 82
+        line 15: 90
+        line 17: 93
+        line 5: 101
+        line 20: 107
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           25      82     4     i   I
+            0     108     0  args   [Ljava/lang/String;
+           20      88     1 num_arr   [I
+           22      86     2 result   D
+      StackMapTable: number_of_entries = 7
+        frame_type = 254 /* append */
+          offset_delta = 25
+          locals = [ class "[I", double, int ]
+        frame_type = 34 /* same */
+        frame_type = 10 /* same */
+        frame_type = 10 /* same */
+        frame_type = 10 /* same */
+        frame_type = 7 /* same */
+        frame_type = 250 /* chop */
+          offset_delta = 5
+}
+SourceFile: "HelloSwitch.java"
