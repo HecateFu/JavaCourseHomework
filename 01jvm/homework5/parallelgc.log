@@ -1,0 +1,16 @@
+OpenJDK 64-Bit Server VM (25.312-b07) for linux-amd64 JRE (1.8.0_312-8u312-b07-0ubuntu1~20.04-b07), built on Nov  3 2021 13:54:59 by "buildd" with gcc 9.3.0
+Memory: 4k page, physical 6425984k(6246796k free), swap 2097152k(2097152k free)
+CommandLine flags: -XX:InitialHeapSize=2147483648 -XX:MaxHeapSize=2147483648 -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC 
+2022-05-06T21:13:24.012+0800: 2.977: [GC (Allocation Failure) [PSYoungGen: 524800K->87037K(611840K)] 524800K->141827K(2010112K), 0.1250853 secs] [Times: user=0.32 sys=0.66, real=0.12 secs] 
+2022-05-06T21:13:24.232+0800: 3.197: [GC (Allocation Failure) [PSYoungGen: 611837K->87027K(611840K)] 666627K->243737K(2010112K), 0.1659911 secs] [Times: user=0.28 sys=1.03, real=0.16 secs] 
+2022-05-06T21:13:24.487+0800: 3.452: [GC (Allocation Failure) [PSYoungGen: 611827K->87026K(611840K)] 768537K->370894K(2010112K), 0.1289314 secs] [Times: user=0.33 sys=0.70, real=0.13 secs] 
+2022-05-06T21:13:24.718+0800: 3.683: [GC (Allocation Failure) [PSYoungGen: 611826K->87039K(611840K)] 895694K->484017K(2010112K), 0.1141015 secs] [Times: user=0.38 sys=0.53, real=0.12 secs] 
+Heap
+ PSYoungGen      total 611840K, used 108002K [0x00000000d5580000, 0x0000000100000000, 0x0000000100000000)
+  eden space 524800K, 3% used [0x00000000d5580000,0x00000000d69f8b70,0x00000000f5600000)
+  from space 87040K, 99% used [0x00000000fab00000,0x00000000fffffde0,0x0000000100000000)
+  to   space 87040K, 0% used [0x00000000f5600000,0x00000000f5600000,0x00000000fab00000)
+ ParOldGen       total 1398272K, used 396978K [0x0000000080000000, 0x00000000d5580000, 0x00000000d5580000)
+  object space 1398272K, 28% used [0x0000000080000000,0x00000000983aca18,0x00000000d5580000)
+ Metaspace       used 3516K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 390K, capacity 392K, committed 512K, reserved 1048576K
