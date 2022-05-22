@@ -1,5 +1,9 @@
 package io.github.kimmking.gateway.inbound;
 
+import hecate.client.ApacheAsyncClient;
+import hecate.client.ApacheBlockClient;
+import hecate.client.OkClient;
+import hecate.client.NettyClient;
 import io.github.kimmking.gateway.filter.HeaderHttpRequestFilter;
 import io.github.kimmking.gateway.filter.HttpRequestFilter;
 import io.github.kimmking.gateway.outbound.httpclient4.HttpOutboundHandler;
@@ -19,11 +23,24 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     private HttpOutboundHandler handler;
     private HttpRequestFilter filter = new HeaderHttpRequestFilter();
     
-    public HttpInboundHandler(List<String> proxyServer) {
+    public HttpInboundHandler(List<String> proxyServer,String clientType) {
         this.proxyServer = proxyServer;
-        this.handler = new HttpOutboundHandler(this.proxyServer);
+        // 根据配置创建不同版本的下游服务客户端实现
+        switch (clientType){
+            case "1":
+                this.handler = new ApacheBlockClient(this.proxyServer);
+                break;
+            case "2":
+                this.handler = new OkClient(this.proxyServer);
+                break;
+            case "3":
+                this.handler = new NettyClient(this.proxyServer);
+                break;
+            default:
+                this.handler = new ApacheAsyncClient(this.proxyServer);
+        }
     }
-    
+
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
@@ -32,14 +49,15 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try {
-            //logger.info("channelRead流量接口请求开始，时间为{}", startTime);
+            // 处理客户端请求
+            logger.info("channelRead流量接口请求开始");
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
-//            String uri = fullRequest.uri();
-//            //logger.info("接收到的请求url为{}", uri);
+            String uri = fullRequest.uri();
+            logger.info("接收到的请求uri为{}", uri);
 //            if (uri.contains("/test")) {
 //                handlerTest(fullRequest, ctx);
 //            }
-    
+            // 调用下游服务并输出给客户端
             handler.handle(fullRequest, ctx, filter);
     
         } catch(Exception e) {

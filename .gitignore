@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Mine ###
+02nio/homework4/
+!02nio/homework4/*.md
