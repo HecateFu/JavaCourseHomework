@@ -12,7 +12,6 @@ import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -54,6 +53,7 @@ public class NettyClient extends HttpOutboundHandler {
                                     int readerIndex = buf.readerIndex();
                                     byte[] body = new byte[readable];
                                     buf.getBytes(readerIndex, body);
+                                    log.info("获取到下游服务响应");
                                     // 调用上层响应输出方法，将下游服务响应返回客户端
                                     handleResponse(inbound,serverCtx,body);
                                 }
@@ -73,17 +73,19 @@ public class NettyClient extends HttpOutboundHandler {
             // 封装请求对象
             HttpRequest request = new DefaultFullHttpRequest(
                     HttpVersion.HTTP_1_1, HttpMethod.GET, uri.getRawPath(), Unpooled.EMPTY_BUFFER);
-            request.headers().set(HttpHeaderNames.HOST, host);
-            request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
-            request.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
+            inbound.headers().forEach(entry->{
+                request.headers().set(entry.getKey(),entry.getValue());
+            });
 
             // 发送请求
             ch.writeAndFlush(request);
 
             // 等待下游服务关闭连接
             ch.closeFuture().sync();
-        } catch (URISyntaxException | InterruptedException e) {
+        } catch (Exception e) {
             log.error("调用下游服务异常",e);
+            byte[] body = "服务调用失败".getBytes();
+            handleResponse(inbound,serverCtx,body);
         } finally {
             // 关闭 netty 客户端 的 EventLoopGroup
             group.shutdownGracefully();

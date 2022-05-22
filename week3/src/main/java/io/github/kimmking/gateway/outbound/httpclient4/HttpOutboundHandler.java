@@ -13,13 +13,14 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_LENGTH;
-import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
+import static io.netty.handler.codec.http.HttpHeaderNames.*;
+import static io.netty.handler.codec.http.HttpHeaderValues.TEXT_HTML;
 import static io.netty.handler.codec.http.HttpHeaderValues.TEXT_PLAIN;
 import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -28,6 +29,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 /**
  * 调用下游服务并将结果返回客户端
  */
+@Slf4j
 public abstract class HttpOutboundHandler {
     
     private final ExecutorService proxyService;
@@ -86,7 +88,7 @@ public abstract class HttpOutboundHandler {
             // 封装客户端响应
             response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(body));
 
-            response.headers().set(CONTENT_TYPE, TEXT_PLAIN);
+            response.headers().set(CONTENT_TYPE, "text/plain; charset=utf-8");
             response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
 
             // 调用响应过滤器
@@ -104,6 +106,7 @@ public abstract class HttpOutboundHandler {
                     //response.headers().set(CONNECTION, KEEP_ALIVE);
                     ctx.write(response);
                 }
+                log.info("输出响应");
             }
             ctx.flush();
             //ctx.close();

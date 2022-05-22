@@ -13,6 +13,7 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -45,27 +46,30 @@ public class ApacheAsyncClient extends HttpOutboundHandler {
     protected void fetchGet(final FullHttpRequest inbound, final ChannelHandlerContext ctx, final String url) {
         // 封装请求
         final HttpGet httpGet = new HttpGet(url);
-        //httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
-        httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
-        httpGet.setHeader("mao", inbound.headers().get("mao"));
+        inbound.headers().forEach(entry -> httpGet.setHeader(entry.getKey(), entry.getValue()));
         // 调用下游服务
         httpclient.execute(httpGet, new FutureCallback<HttpResponse>() {
             @Override
             public void completed(final HttpResponse endpointResponse) {
+                byte[] body;
                 try {
                     // 接收下游服务响应
-                    byte[] body = EntityUtils.toByteArray(endpointResponse.getEntity());
-                    // 调用上层响应输出方法，将下游服务响应返回客户端
-                    handleResponse(inbound, ctx, body);
+                    body = EntityUtils.toByteArray(endpointResponse.getEntity());
+                    log.info("获取到下游服务响应");
                 } catch (Exception e) {
-                    log.error("调用下游服务异常",e);
+                    log.error("调用下游服务异常-completed",e);
+                    body = "服务调用失败".getBytes();
                 }
+                // 调用上层响应输出方法，将下游服务响应返回客户端
+                handleResponse(inbound, ctx, body);
             }
 
             @Override
             public void failed(final Exception ex) {
                 httpGet.abort();
-                log.error("调用下游服务异常",ex);
+                log.error("调用下游服务异常-failed",ex);
+                byte[] body = "服务调用失败".getBytes(StandardCharsets.UTF_8);
+                handleResponse(inbound, ctx, body);
             }
 
             @Override

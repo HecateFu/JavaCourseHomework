@@ -27,19 +27,21 @@ public class OkClient extends HttpOutboundHandler {
 
     @Override
     protected void fetchGet(FullHttpRequest inbound, ChannelHandlerContext ctx, String url) {
-        byte[] body = new byte[0];
+        byte[] body;
         try {
-            body = get(url);
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+            inbound.headers().forEach(entry -> requestBuilder.addHeader(
+                    entry.getKey(), entry.getValue()));
+            body = get(requestBuilder.build());
+            log.info("获取到下游服务响应");
         } catch (IOException e) {
             log.error("调用下游服务异常",e);
+            body = "服务调用失败".getBytes();
         }
         handleResponse(inbound,ctx,body);
     }
 
-    public byte[] get(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    public byte[] get(Request request) throws IOException {
         try (Response response = client.newCall(request).execute()) {
             assert response.body() != null;
             return response.body().bytes();
