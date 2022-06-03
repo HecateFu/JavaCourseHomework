@@ -1,0 +1,10 @@
+#learn:
+#  spring:
+#    school:
+#      enable: true
+#      student1:
+#        id: 11
+#        name: aaaaa
+#      student2:
+#        id: 22
+#        name: bbbbb
