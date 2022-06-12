@@ -1,6 +1,6 @@
 -- 用户
 CREATE TABLE `user` (
-  `id` bigint(20) unsigned NOT NULL COMMENT '主键',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_code` varchar(30) NOT NULL COMMENT '用户编号',
   `user_name` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` varchar(200) DEFAULT NULL COMMENT '密码',
@@ -35,7 +35,7 @@ CREATE TABLE `product` (
 
 -- 订单
 CREATE TABLE `order` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `order_code` varchar(30) NOT NULL COMMENT '订单编号',
   `order_status` char(2) NOT NULL COMMENT '订单状态',
   `amount` decimal(10,2) NOT NULL COMMENT '订单商品总金额',
