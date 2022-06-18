@@ -1,5 +1,5 @@
 -- 用户
-CREATE TABLE `user` (
+CREATE TABLE `t_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_code` varchar(30) NOT NULL COMMENT '用户编号',
   `user_name` varchar(50) DEFAULT NULL COMMENT '用户名',
@@ -18,7 +18,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- 商品
-CREATE TABLE `product` (
+CREATE TABLE `t_product` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `product_name` varchar(50) NOT NULL COMMENT '商品名称',
   `sku` varchar(50) NOT NULL COMMENT '商品编号',
@@ -34,7 +34,7 @@ CREATE TABLE `product` (
 
 
 -- 订单
-CREATE TABLE `order` (
+CREATE TABLE `t_order` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `order_code` varchar(30) NOT NULL COMMENT '订单编号',
   `order_status` char(2) NOT NULL COMMENT '订单状态',
@@ -55,7 +55,7 @@ CREATE TABLE `order` (
   UNIQUE KEY `order_code_UNIQUE` (`order_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
 
-CREATE TABLE `order_detail` (
+CREATE TABLE `t_order_detail` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `order_code` varchar(30) DEFAULT NULL COMMENT '订单编号，order.order_code',
   `product_sku` varchar(30) NOT NULL COMMENT '订单商品编号，product.sku',
