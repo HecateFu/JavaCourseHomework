@@ -1,0 +1,45 @@
+# Tomcat 配置
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 10
+  servlet:
+    context-path: /
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+# MyBatis 配置
+mybatis:
+  config-locations: classpath:mybatis-configuration.xml
+  mapper-locations: classpath:learn/java/db/dao/mapper/*.xml
+  configuration:
+    cache-enabled: false
+    lazy-loading-enabled: false
+    use-generated-keys: true
+    auto-mapping-behavior: full
+    default-executor-type: REUSE
+    default-statement-timeout: 20000
+
+# 主从数据库配置
+spring:
+  datasource:
+    master:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 123456
+    slave:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test0?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: 123456
+
+#  Logback日志级别配置
+logging.level.root: info
+logging.level.com.cncounter: debug
+logging.level.org.springframework.test.web.servlet.result: debug
+
