@@ -18,6 +18,10 @@ import java.util.concurrent.*;
 
 /**
  * 直接使用jdbc batch 实现的订单插入
+ * 有效的优化参数
+ * 1、jdbcUrl参数：rewriteBatchedStatements=true
+ * 2、mysql参数：innodb_io_capacity
+ * 3、减少事务提交次数
  */
 @Slf4j
 @Component
