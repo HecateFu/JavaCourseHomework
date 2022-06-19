@@ -22,6 +22,7 @@ import java.util.concurrent.*;
  * 1、jdbcUrl参数：rewriteBatchedStatements=true
  * 2、mysql参数：innodb_io_capacity
  * 3、减少事务提交次数
+ * 4、适当增加线程数
  */
 @Slf4j
 @Component
