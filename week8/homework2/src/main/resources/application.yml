@@ -1,0 +1,81 @@
+# Tomcat 配置
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 10
+  servlet:
+    context-path: /
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+
+# MyBatis 配置
+mybatis:
+  config-locations: classpath:mybatis-configuration.xml
+  mapper-locations: classpath:learn/java/db/dao/mapper/*.xml
+  configuration:
+    cache-enabled: false
+    lazy-loading-enabled: false
+    use-generated-keys: true
+    auto-mapping-behavior: full
+    default-executor-type: REUSE
+    default-statement-timeout: 20000
+
+# sharding sphere相关配置
+spring:
+  shardingsphere:
+    # 多个数据源配置
+    datasource:
+      names: test0,test1
+      test0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/test0?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        username: root
+        password: fcx9mysql
+      test1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/test1?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        username: root
+        password: fcx9mysql
+    rules:
+      # 分片规则配置
+      sharding:
+        default-database-strategy:
+          standard:
+            sharding-column: id
+            sharding-algorithm-name: split-db
+        tables:
+          t_biz_order:
+            actual-data-nodes: test0.t_biz_order$->{0..15},test1.t_biz_order$->{16..31}
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: split-table
+            key-generate-strategy:
+              column: id
+              key-generator-name: sf-key
+        sharding-algorithms:
+          split-db:
+            type: INLINE
+            props:
+              algorithm-expression: test$->{id%32<16?0:1}
+          split-table:
+            type: INLINE
+            props:
+              algorithm-expression: t_biz_order$->{id%32}
+        key-generators:
+          sf-key:
+            type: SNOWFLAKE
+    # 显示 逻辑sql 和 处理后的实际SQL
+    props.sql-show: true
+
+#  Logback日志级别配置
+logging.level.root: info
+logging.level.com.cncounter: debug
+logging.level.org.springframework.test.web.servlet.result: debug
+
