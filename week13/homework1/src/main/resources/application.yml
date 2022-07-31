@@ -1,0 +1,4 @@
+kafka:
+  bootstrapAddress: 172.22.193.80:29092
+  topic: test
+  consumerGroupId: consumer1
